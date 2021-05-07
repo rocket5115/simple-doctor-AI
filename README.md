@@ -14,3 +14,7 @@ And that’s all! I hope some people can tell me how I can improve it!
 You have everything in config.lua. Well… almost everything. text and other stuff you can change easily in client/main.lua. If you find any bugs let me know! Thanks!
 
 And also its using esx_ambulancejob from esx_framework(sorry :frowning: ) but you can change coordinates in config.lua so good luck.
+
+forum link:
+
+https://forum.cfx.re/t/release-free-simple-ai-doctor/2833319
