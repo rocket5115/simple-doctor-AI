@@ -134,6 +134,12 @@ Citizen.CreateThread(function()
                             return
                         end
 
+                        if Config.AntiCL then
+                            TriggerServerEvent('basia:Insert')
+                        else
+                            return
+                        end
+
                         Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
 
                         SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
@@ -434,3 +440,5 @@ AddEventHandler('basia:effects', function()
     ShakeGameplayCam("DRUNK_SHAKE", 0.0)
     SetTimecycleModifierStrength(0.0)
 end)
+
+
