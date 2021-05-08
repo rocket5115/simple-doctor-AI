@@ -1,8 +1,40 @@
 ESX = nil
 
-local enough
+local enough = false
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+
+local EMSConnected       	   = 0
+
+function CountEMS() -- this function checks EMS that are in service!
+
+	local xPlayers = ESX.GetPlayers()
+
+	EMSConnected = 0
+
+	for i=1, #xPlayers, 1 do
+		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+		
+		if xPlayer.job.name == 'ambulance' then
+			EMSConnected = EMSConnected + 1
+		end
+	end
+
+	SetTimeout(Config.EMSrefreshtime, CountEMS)
+
+end
+
+CountEMS()
+
+RegisterServerEvent('basia:get') -- this guy checks EMS in service. And more like getting result from function above. Its used in client side for it to know how many EMS are in service!
+AddEventHandler('basia:get', function()
+	local counted = {}
+
+	counted['ambulance'] = EMSConnected
+
+	TriggerClientEvent('basia:set', source, counted)
+end)
+
 
 RegisterNetEvent('basia:revive') -- its function that is responsible for reviving player. It uses esx_ambulancejob
 AddEventHandler('basia:revive', function(target)
@@ -14,8 +46,6 @@ AddEventHandler('basia:pay', function()
     local ped = GetPlayerPed(-1)
 
     local xPlayer = ESX.GetPlayerFromId(source)
-
-    --TriggerClientEvent('basia:healthcheck')
 
     if Config.removeMoney then
         xPlayer.removeAccountMoney('bank', Config.Money)
@@ -36,54 +66,3 @@ AddEventHandler('basia:revivepay', function()
         end
     end
 end)
-
---[[    my playing with Config.EMSinService
-
-RegisterNetEvent('basia:EMScheck')
-AddEventHandler('basia:EMScheck', function()
-    local _source = source
-
-    local xPlayer  = ESX.GetPlayerFromId(_source)
-    local xPlayers = ESX.GetPlayers()
-
-    local ems = 0
-
-    for i=1, #xPlayers, 1 do
-        local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-        if xPlayer.job.name == 'ambulance' then
-            ems = ems + 1
-        end
-    end
-
-    if ems >= Config.EMSinService then
-        enough = true
-    end
-
-    if ems < Config.EMSinService then
-        enough = false
-    end
-end)
-
---]]
-
---[[    my playing with Config.EMSinService
-
-Citizen.CreateThread(function()
-    while enough do
-        Citizen.Wait(10)
-
-        TriggerClientEvent('basia:enough2')
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(10)
-
-        if not enough then 
-            TriggerClientEvent('basia:notenough2')
-        end
-    end
-end)
-
---]]
