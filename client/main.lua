@@ -1,6 +1,8 @@
 ESX              = nil
 local PlayerData = {}
 
+local enough = false
+
 Citizen.CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
@@ -16,6 +18,13 @@ end)
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
   PlayerData.job = job
+end)
+
+RegisterNetEvent('basia:enough')
+AddEventHandler('basia:enough', function()
+    
+    enough = true
+
 end)
 
 local doc = {
@@ -48,87 +57,161 @@ Citizen.CreateThread(function()
         local Vector = vector3(Config.interactcoords.x, Config.interactcoords.y, Config.interactcoords.z)
         
         if Vdist2(playerCoord, Vector) < Config.distance then -- this checks distance between you and doc ;)
-            if Config.ActiveEMS then -- yeah. Its not really usefull here. its just wasting a bit more space.
-                TriggerServerEvent('basia:EMScheck')
-                Citizen.Wait(10000)
-            end
 
             if IsControlJustPressed(1, 46) then -- control is just pressed *e* then do the reviving
+                if Config.ActiveEMS then
+                    if enough then
+                        Citizen.Wait(10)
+                        exports.mythic_notify:DoHudText('inform', 'Too many EMS!')
+                        Citizen.Wait(1000)
+                    elseif not enough then
+                        FreezeEntityPosition(ped, true)
+                        SetPedCanRagdollFromPlayerImpact(ped, false)
+                        SetEntityInvincible(ped, true)
 
-                FreezeEntityPosition(ped, true)
-                SetPedCanRagdollFromPlayerImpact(ped, false)
-                SetEntityInvincible(ped, true)
+                        exports.mythic_notify:DoHudText('inform', 'Doctor is helping you!')
 
-                exports.mythic_notify:DoHudText('inform', 'Doctor is helping you!')
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 15 seconds!')
 
-                exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 15 seconds!')
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 10 seconds!')
 
-                exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 10 seconds!')
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 5 seconds!')
 
-                exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 5 seconds!')
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        Citizen.Wait(1000)
 
-                Citizen.Wait(1000)
+                        exports.mythic_notify:DoHudText('inform', 'Doctor helped you!')
 
-                exports.mythic_notify:DoHudText('inform', 'Doctor helped you!')
-                
-                --TriggerServerEvent('basia:pay')
+                        TriggerEvent('basia:statuscheck')
+                        
+                        Citizen.Wait(1000) -- this little guy here is giving basia:statuscheck time to really check if guy is dead or not
+                        if IsPlayerDead(ped) then --It doesn't really seem to do anything. This IsPlayerDead(ped) is because that way it has a chance to check if you are actually dead. I haven't tested it so don't blame me!
+                            return
+                        else
+                            TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
+                        end
 
-                TriggerEvent('basia:statuscheck')
-                
-                Citizen.Wait(1000) -- this little guy here is giving basia:statuscheck time to really check if guy is dead or not
-                if IsPlayerDead(ped) then --It doesn't really seem to do anything. This IsPlayerDead(ped) is because that way it has a chance to check if you are actually dead. I haven't tested it so don't blame me!
-                    return
+                        Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
+
+                        SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
+
+                        Citizen.Wait(1000) -- and this thing just gives a little bit more time so the script can process this request more efficiently
+
+                        FreezeEntityPosition(ped, false)
+                        SetPedCanRagdollFromPlayerImpact(ped, true)
+                        SetEntityInvincible(ped, false)
+                    end
                 else
-                    TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
+                    FreezeEntityPosition(ped, true)
+                    SetPedCanRagdollFromPlayerImpact(ped, false)
+                    SetEntityInvincible(ped, true)
+
+                    exports.mythic_notify:DoHudText('inform', 'Doctor is helping you!')
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 15 seconds!')
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 10 seconds!')
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 5 seconds!')
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    Citizen.Wait(1000)
+
+                    exports.mythic_notify:DoHudText('inform', 'Doctor helped you!')
+
+                    TriggerEvent('basia:statuscheck')
+                    
+                    Citizen.Wait(1000) -- this little guy here is giving basia:statuscheck time to really check if guy is dead or not
+                    if IsPlayerDead(ped) then --It doesn't really seem to do anything. This IsPlayerDead(ped) is because that way it has a chance to check if you are actually dead. I haven't tested it so don't blame me!
+                        return
+                    else
+                        TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
+                    end
+
+                    Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
+
+                    SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
+
+                    Citizen.Wait(1000) -- and this thing just gives a little bit more time so the script can process this request more efficiently
+
+                    FreezeEntityPosition(ped, false)
+                    SetPedCanRagdollFromPlayerImpact(ped, true)
+                    SetEntityInvincible(ped, false)
                 end
-
-                Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
-
-                SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
-
-				Citizen.Wait(1000) -- and this thing just gives a little bit more time so the script can process this request more efficiently
-
-                FreezeEntityPosition(ped, false)
-                SetPedCanRagdollFromPlayerImpact(ped, true)
-                SetEntityInvincible(ped, false)
             end
         end
     end
@@ -164,54 +247,21 @@ AddEventHandler('basia:statuscheck', function()
     end
 end)
 
---[[    my playing with Config.EMSinService
+RegisterNetEvent('basia:set') -- this guy is responsible for setting enough. If 5 EMS are in service and you choose it won't work with 2 in service then this event checks that!
+AddEventHandler('basia:set', function(jobs_online)
+    jobs = jobs_online
 
-RegisterNetEvent('basia:enough2')
-AddEventHandler('basia:enough2', function()
-    enough = true
-end)
-
-RegisterNetEvent('basia:notenough2')
-AddEventHandler('basia:notenough2', function()
-    enough = false
-end)
-
---]]
-
---[[ Its my test with Config.EMSinService! It didn't work :(
-
-Citizen.CreateThread(function()
-    while enough do
-        local ped = GetPlayerPed(-1)
-        local playerCoord = GetEntityCoords(PlayerPedId(), false)
-        local Vector = vector3(Config.interactcoords.x, Config.interactcoords.y, Config.interactcoords.z)
-            
-        if Vdist2(playerCoord, Vector) < Config.distance then
-            DisableControlAction(1, 46, true)
-        else
-            if Vdist2(playerCoord, Vector) < Config.distance then
-                DisableControlAction(1, 46, false)
-            end
-        end
+    if jobs['ambulance'] < Config.EMSinService then
+        enough = false
+    elseif jobs['ambulance'] >= Config.EMSinService then
+        enough = true
     end
 end)
 
---]]
+Citizen.CreateThread(function() -- This thread triggersServerEvent that gets EMS in service!
+	while true do
+		TriggerServerEvent('basia:get')
 
---[[    my tests with IsPlayerDead
-Citizen.CreateThread(function()
-    while true do
-        local ped = GetPlayerPed(-1)
-
-        Citizen.Wait(10)
-
-        if IsPlayerDead(ped) then
-            print("test")
-        end
-
-        if GetEntityHealth(ped) == 0 then
-            print("asdada")
-        end
-    end
+		Wait(Config.EMSrefreshtime)
+	end
 end)
---]]
