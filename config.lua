@@ -25,5 +25,7 @@ Config = {
 
     effects = true, -- If you want your screen to be drugged then leave it. It will only turn on if you get treated
     effectstime = 50000, -- this is how long its going to take for drugs to go away. its 50 seconds now. 1 secods = 1000ms
-    effectstype = effects -- this will be updated soon. For now just leave it be
+    effectstype = 'type1', -- you have 4 types of drug effects. type1, type2, type3 and type4. If you want non then just leave an empty space. It has a nil value implemented so its not going to crash your server
+
+    InsertSqlAfterUse = false -- If you enable this then be aware you're going to have some stuff in your database ;)
 }
