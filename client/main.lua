@@ -128,6 +128,12 @@ Citizen.CreateThread(function()
                             TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
                         end
 
+                        if Config.ReviveChance then
+                            TriggerEvent('basia:revivechance')
+                        else
+                            return 
+                        end
+
                         Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
 
                         SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
@@ -241,8 +247,7 @@ AddEventHandler('basia:statuscheck', function()
 
     if GetEntityHealth(ped) == 0 then
         TriggerServerEvent('basia:revivepay')
-    elseif
-        GetEntityHealth(ped) >= 20 then
+    elseif GetEntityHealth(ped) >= 20 then
         TriggerServerEvent('basia:pay')
     end
 end)
@@ -264,4 +269,138 @@ Citizen.CreateThread(function() -- This thread triggersServerEvent that gets EMS
 
 		Wait(Config.EMSrefreshtime)
 	end
+end)
+
+RegisterNetEvent('basia:revivechance')
+AddEventHandler('basia:revivechance', function()
+    local ped = GetPlayerPed(-1)
+
+    revivechance()
+
+    Citizen.Wait(10)
+
+    if revivechance() == 0 then
+        if GetEntityHealth(ped) == 0 then
+            Citizen.Wait(1000)
+            SetEntityHealth(ped, 0)
+            Citizen.Wait(10)
+            if Config.removeMoney then
+                if Config.revivefee then
+                    if Config.repaymistake then
+                        TriggerServerEvent('basia:paymistakerevive')
+                    else
+                        TriggerEvent('basia:inform')
+                    end
+                    TriggerServerEvent('basia:paymistakerevive')
+                else
+                    TriggerServerEvent('basia:paymistake')
+                end
+            else
+                return
+            end
+            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged!')
+        elseif GetEntityHealth(ped) >= 20 then
+            Citizen.Wait(1000)
+            SetEntityHealth(ped, 100)
+            Citizen.Wait(10)
+            if Config.removeMoney then
+                if Config.repaymistake then
+                    TriggerServerEvent('basia:paymistake')
+                else
+                    TriggerEvent('basia:inform')
+                end
+            else
+                return
+            end
+            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged!')
+        elseif GetEntityHealth(ped) >= 100 then
+            Citizen.Wait(1000)
+            SetEntityHealth(ped, 100)
+            Citizen.Wait(10)
+            if Config.removeMoney then
+                if Config.repaymistake then
+                    TriggerServerEvent('basia:paymistake')
+                else
+                    TriggerEvent('basia:inform')
+                end
+            else
+                return
+            end
+            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged so much!')
+        end
+    elseif revivechance() >= 50 then
+        if GetEntityHealth(ped) == 0 then
+            Citizen.Wait(1000)
+            SetEntityHealth(ped, 100)
+            Citizen.Wait(10)
+            if Config.removeMoney then
+                if Config.revivefee then
+                    if Config.repaymistake then
+                        TriggerServerEvent('basia:paymistakerevive')
+                    else
+                        TriggerEvent('basia:inform')
+                    end
+                else
+                    return
+                end
+            else
+                return
+            end
+            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged!')
+        elseif GetEntityHealth(ped) >= 20 then
+            Citizen.Wait(1000)
+            SetEntityHealth(ped, 150)
+            Citizen.Wait(10)
+            if Config.removeMoney then
+                if Config.repaymistake then
+                    TriggerServerEvent('basia:paymistake')
+                else
+                    TriggerEvent('basia:inform')
+                end
+            else
+                return
+            end
+            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged so much!')
+        elseif GetEntityHealth(ped) >= 100 then
+            Citizen.Wait(1000)
+            SetEntityHealth(ped, 150)
+            Citizen.Wait(10)
+            if Config.removeMoney then
+                if Config.repaymistake then
+                    TriggerServerEvent('basia:paymistake')
+                else
+                    TriggerEvent('basia:inform')
+                end
+            else
+                return
+            end
+            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged so much!')
+        end
+    elseif revivechance() >= 75 then
+        if GetEntityHealth(ped) == 0 then
+            Citizen.Wait(1000)
+            SetEntityHealth(ped, 200)
+            Citizen.Wait(10)
+            exports.mythic_notify:DoHudText('inform', 'Doctor Healed you so you get to live another day!')
+        elseif GetEntityHealth(ped) >= 20 then
+            Citizen.Wait(1000)
+            SetEntityHealth(ped, 200)
+            Citizen.Wait(10)
+            exports.mythic_notify:DoHudText('inform', 'Doctor Healed you so you get to live another day!')
+        elseif GetEntityHealth(ped) >= 100 then
+            Citizen.Wait(1000)
+            SetEntityHealth(ped, 200)
+            Citizen.Wait(10)
+            exports.mythic_notify:DoHudText('inform', 'Doctor Healed you so you get to live another day!')
+        end
+    end
+end)
+
+function revivechance()
+    return math.random(Config.MinimalChance, Config.MaximalChance)
+end
+
+RegisterNetEvent('basia:inform')
+AddEventHandler('basia:inform', function()
+    exports.mythic_notify:DoHudText('inform', 'Hospital said they do not confess to doctor mistake. Guess you are going bankrupt')
 end)
