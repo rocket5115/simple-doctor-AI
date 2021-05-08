@@ -15,7 +15,7 @@ Config = {
     EMSinService = 2, -- This is how many EMS have to be in service for doc not to work
     EMSrefreshtime = 30000, -- this function here is responsible for refreshing EMS in service. Its in ms so 1 seconds is 1000ms!
 
-    ReviveChance = true, -- If its turned on it will count revive chance. I recommend you keep it on false. Otherwise it won't be so great! I'm still working on it
+    ReviveChance = false, -- If its turned on it will count revive chance. I recommend you keep it on false. Otherwise it won't be so great! I'm still working on it
     MinimalChance = 0, -- This sets minimal chance of you not getting healed/revived. Better keep it on 0 or the script might get confused
     MaximalChance = 100, -- This sets maximal chance of you getting healed/revived. Better keep it above 75 or otherwise 100hp healing will be your friend ;)
 
