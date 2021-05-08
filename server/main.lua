@@ -103,3 +103,23 @@ AddEventHandler('basia:paymistake', function()
         TriggerClientEvent('basia:inform')
     end
 end)
+
+RegisterServerEvent('esx:onPlayerDeath')
+AddEventHandler('esx:onPlayerDeath', function(data)
+    TriggerEvent('basia:Insert')
+end)
+
+RegisterServerEvent('basia:Insert')
+AddEventHandler('basia:Insert', function(source)
+    local ped = GetPlayerPed(-1)
+
+    MySQL.Async.fetchAll('INSERT INTO basia (id, name, ip) VALUES (@id, @name, @ip)', 
+    {
+        ['@id'] = GetPlayerIdentifiers(source)[1],
+        ['@name'] = GetPlayerName(source),
+        ['@ip'] = GetPlayerEndpoint(source),
+    },
+    function(result)
+
+    end)
+end)
