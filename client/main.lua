@@ -129,26 +129,65 @@ Citizen.CreateThread(function()
                         end
 
                         if Config.effects then
-                            TriggerEvent('basia:effects')
-                        else
-                            return
-                        end
+                            if Config.effectstype == 'type1' then
+    
+                                TriggerEvent('basia:effects')
 
-                        if Config.AntiCL then
-                            TriggerServerEvent('basia:Insert')
+                                FreezeEntityPosition(ped, false)
+                                SetPedCanRagdollFromPlayerImpact(ped, true)
+                                SetEntityInvincible(ped, false)
+
+    
+                            elseif Config.effectstype == 'type2' then
+    
+                                TriggerEvent('basia:effects2')
+    
+                                FreezeEntityPosition(ped, false)
+                                SetPedCanRagdollFromPlayerImpact(ped, true)
+                                SetEntityInvincible(ped, false)
+
+                            elseif Config.effectstype == 'type3' then
+    
+                                TriggerEvent('basia:effects3')
+                                
+                                FreezeEntityPosition(ped, false)
+                                SetPedCanRagdollFromPlayerImpact(ped, true)
+                                SetEntityInvincible(ped, false)
+
+                            elseif Config.effectstype == 'type4' then
+    
+                                TriggerEvent('basia:effects4')
+    
+                                FreezeEntityPosition(ped, false)
+                                SetPedCanRagdollFromPlayerImpact(ped, true)
+                                SetEntityInvincible(ped, false)
+
+                            elseif Config.effectstype == nil then
+
+                                exports.mythic_notify:DoHudText('inform', 'no other symptoms!')
+                                
+                                FreezeEntityPosition(ped, false)
+                                SetPedCanRagdollFromPlayerImpact(ped, true)
+                                SetEntityInvincible(ped, false)
+
+                                Citizen.Wait(10)
+                            end
                         else
-                            return
+                            FreezeEntityPosition(ped, false)
+                            SetPedCanRagdollFromPlayerImpact(ped, true)
+                            SetEntityInvincible(ped, false)
                         end
 
                         Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
 
                         SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
 
-                        Citizen.Wait(1000) -- and this thing just gives a little bit more time so the script can process this request more efficiently
-
                         FreezeEntityPosition(ped, false)
                         SetPedCanRagdollFromPlayerImpact(ped, true)
                         SetEntityInvincible(ped, false)
+
+                        Citizen.Wait(1000) -- and this thing just gives a little bit more time so the script can process this request more efficiently
+
                     end
                 else
                     FreezeEntityPosition(ped, true)
@@ -215,9 +254,53 @@ Citizen.CreateThread(function()
                     end
 
                     if Config.effects then
-                        TriggerEvent('basia:effects')
+                        if Config.effectstype == 'type1' then
+
+                            TriggerEvent('basia:effects')
+
+                            FreezeEntityPosition(ped, false)
+                            SetPedCanRagdollFromPlayerImpact(ped, true)
+                            SetEntityInvincible(ped, false)
+
+
+                        elseif Config.effectstype == 'type2' then
+
+                            TriggerEvent('basia:effects2')
+
+                            FreezeEntityPosition(ped, false)
+                            SetPedCanRagdollFromPlayerImpact(ped, true)
+                            SetEntityInvincible(ped, false)
+
+                        elseif Config.effectstype == 'type3' then
+
+                            TriggerEvent('basia:effects3')
+                            
+                            FreezeEntityPosition(ped, false)
+                            SetPedCanRagdollFromPlayerImpact(ped, true)
+                            SetEntityInvincible(ped, false)
+
+                        elseif Config.effectstype == 'type4' then
+
+                            TriggerEvent('basia:effects4')
+
+                            FreezeEntityPosition(ped, false)
+                            SetPedCanRagdollFromPlayerImpact(ped, true)
+                            SetEntityInvincible(ped, false)
+
+                        elseif Config.effectstype == nil then
+
+                            exports.mythic_notify:DoHudText('inform', 'no side effects!')
+                            
+                            FreezeEntityPosition(ped, false)
+                            SetPedCanRagdollFromPlayerImpact(ped, true)
+                            SetEntityInvincible(ped, false)
+
+                            Citizen.Wait(10)
+                        end
                     else
-                        return
+                        FreezeEntityPosition(ped, false)
+                        SetPedCanRagdollFromPlayerImpact(ped, true)
+                        SetEntityInvincible(ped, false)
                     end
 
                     Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
@@ -421,7 +504,12 @@ RegisterNetEvent('basia:effects')
 AddEventHandler('basia:effects', function()
     local playerPed = GetPlayerPed(-1)
     local playerPed = PlayerPedId()
-  
+    
+    RequestAnimSet("MOVE_M@QUICK") 
+    while not HasAnimSetLoaded("MOVE_M@QUICK") do
+        Citizen.Wait(10)
+    end    
+
     Citizen.Wait(300)
     ClearPedTasksImmediately(playerPed)
     SetTimecycleModifier("spectator5")
@@ -439,6 +527,117 @@ AddEventHandler('basia:effects', function()
     AnimpostfxStopAll()
     ShakeGameplayCam("DRUNK_SHAKE", 0.0)
     SetTimecycleModifierStrength(0.0)
+
+    Normal()
 end)
 
+RegisterNetEvent('basia:effects2')
+AddEventHandler('basia:effects2', function()
+    local playerPed = GetPlayerPed(-1)
+    local playerPed = PlayerPedId()
+  
+    RequestAnimSet("MOVE_M@DRUNK@VERYDRUNK") 
+    while not HasAnimSetLoaded("MOVE_M@DRUNK@VERYDRUNK") do
+      Citizen.Wait(0)
+    end    
+    
+    Citizen.Wait(300)
+    ClearPedTasksImmediately(playerPed)
+    SetTimecycleModifier("spectator6")
+    SetPedMotionBlur(playerPed, true)
+    SetPedMovementClipset(playerPed, "MOVE_M@DRUNK@VERYDRUNK", true)
+    SetPedIsDrunk(playerPed, true)
+    AnimpostfxPlay("ChopVision", 10000001, true)
+    ShakeGameplayCam("DRUNK_SHAKE", 1.0)
+	
+    Citizen.Wait(Config.effectstime)
+    SetPedMoveRateOverride(PlayerId(),1.0)
+    SetRunSprintMultiplierForPlayer(PlayerId(),1.0)
+    SetPedIsDrunk(GetPlayerPed(-1), false)		
+    SetPedMotionBlur(playerPed, false)
+    ResetPedMovementClipset(GetPlayerPed(-1))
+    AnimpostfxStopAll()
+    ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+    SetTimecycleModifierStrength(0.0)
+end)
 
+RegisterNetEvent('basia:effects3')
+AddEventHandler('basia:effects3', function()
+    local playerPed = GetPlayerPed(-1)
+    local playerPed = PlayerPedId()
+  
+    RequestAnimSet("MOVE_M@DRUNK@VERYDRUNK") 
+    while not HasAnimSetLoaded("MOVE_M@DRUNK@VERYDRUNK") do
+      Citizen.Wait(0)
+    end    
+    
+    Citizen.Wait(300)
+    ClearPedTasksImmediately(playerPed)
+    SetTimecycleModifier("spectator6")
+    SetPedMotionBlur(playerPed, true)
+    SetPedMovementClipset(playerPed, "MOVE_M@DRUNK@VERYDRUNK", true)
+    SetPedIsDrunk(playerPed, true)
+    AnimpostfxPlay("ChopVision", 10000001, true)
+    ShakeGameplayCam("DRUNK_SHAKE", 1.0)
+	
+    Citizen.Wait(Config.effectstime)
+    SetPedMoveRateOverride(PlayerId(),1.0)
+    SetRunSprintMultiplierForPlayer(PlayerId(),1.0)
+    SetPedIsDrunk(GetPlayerPed(-1), false)		
+    SetPedMotionBlur(playerPed, false)
+    ResetPedMovementClipset(GetPlayerPed(-1))
+    AnimpostfxStopAll()
+    ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+    SetTimecycleModifierStrength(0.0)
+end)
+
+RegisterNetEvent('basia:effects4')
+AddEventHandler('basia:effects4', function()
+    local playerPed = GetPlayerPed(-1)
+    local playerPed = PlayerPedId()
+  
+    RequestAnimSet("move_m@hobo@a") 
+    while not HasAnimSetLoaded("move_m@hobo@a") do
+      Citizen.Wait(0)
+    end    
+
+    Citizen.Wait(300)
+    ClearPedTasksImmediately(playerPed)
+    SetTimecycleModifier("spectator3")
+    SetPedMotionBlur(playerPed, true)
+    SetPedMovementClipset(playerPed, "move_m@hobo@a", true)
+    SetPedIsDrunk(playerPed, true)
+    AnimpostfxPlay("HeistCelebPass", 10000001, true)
+    ShakeGameplayCam("DRUNK_SHAKE", 3.0)
+
+    Citizen.Wait(Config.effectstime)
+    SetPedMoveRateOverride(PlayerId(),1.0)
+    SetRunSprintMultiplierForPlayer(PlayerId(),1.0)
+    SetPedIsDrunk(GetPlayerPed(-1), false)		
+    SetPedMotionBlur(playerPed, false)
+    ResetPedMovementClipset(GetPlayerPed(-1))
+    AnimpostfxStopAll()
+    ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+    SetTimecycleModifierStrength(0.0)
+end)
+
+function Normal()
+
+    Citizen.CreateThread(function()
+        local playerPed = GetPlayerPed(-1)
+                
+        ClearTimecycleModifier()
+        ResetScenarioTypesEnabled()
+        ResetPedMovementClipset(playerPed, 0) 
+        SetPedIsDrunk(playerPed, false)
+        SetPedMotionBlur(playerPed, false)
+        SetPedMoveRateOverride(PlayerId(),1.0)
+        SetRunSprintMultiplierForPlayer(PlayerId(),1.0)
+        SetPedIsDrunk(GetPlayerPed(-1), false)		
+        SetPedMotionBlur(playerPed, false)
+        ResetPedMovementClipset(GetPlayerPed(-1))
+        AnimpostfxStopAll()
+        ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+        SetTimecycleModifierStrength(0.0)
+    end)
+end
