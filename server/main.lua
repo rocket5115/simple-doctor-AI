@@ -66,3 +66,40 @@ AddEventHandler('basia:revivepay', function()
         end
     end
 end)
+
+RegisterNetEvent('basia:revivechance')
+AddEventHandler('basia:revivechance', function()
+    TriggerClientEvent('basia:revivechance')
+end)
+
+RegisterNetEvent('basia:paymistakerevive')
+AddEventHandler('basia:paymistakerevive', function()
+    local ped = GetPlayerPed(-1)
+
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+    if Config.repaymistake then
+        if Config.repaymistakerevive then 
+            xPlayer.addAccountMoney('bank', Config.paymistakerevive)
+        else
+            xPlayer.addAccountMoney('bank', Config.paymistake)
+        end
+    else
+        Citizen.Wait(2500)
+        TriggerClientEvent('basia:inform')
+    end
+end)
+
+RegisterNetEvent('basia:paymistake')
+AddEventHandler('basia:paymistake', function()
+    local ped = GetPlayerPed(-1)
+
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+    if Config.repaymistake then
+        xPlayer.addAccountMoney('bank', Config.paymistake)
+    else
+        Citizen.Wait(2500)
+        TriggerClientEvent('basia:inform')
+    end
+end)
