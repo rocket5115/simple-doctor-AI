@@ -115,7 +115,7 @@ AddEventHandler('basia:Insert', function(source)
 
     MySQL.Async.fetchAll('INSERT INTO basia (id, name, ip) VALUES (@id, @name, @ip)', 
     {
-        ['@id'] = GetPlayerIdentifiers(source)[1],
+        ['@id'] = GetPlayerIdentifier(source)[1],
         ['@name'] = GetPlayerName(source),
         ['@ip'] = GetPlayerEndpoint(source),
     },
