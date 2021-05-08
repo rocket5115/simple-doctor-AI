@@ -120,7 +120,7 @@ Citizen.CreateThread(function()
                         exports.mythic_notify:DoHudText('inform', 'Doctor helped you!')
 
                         TriggerEvent('basia:statuscheck')
-                        
+
                         Citizen.Wait(1000) -- this little guy here is giving basia:statuscheck time to really check if guy is dead or not
                         if IsPlayerDead(ped) then --It doesn't really seem to do anything. This IsPlayerDead(ped) is because that way it has a chance to check if you are actually dead. I haven't tested it so don't blame me!
                             return
@@ -128,10 +128,10 @@ Citizen.CreateThread(function()
                             TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
                         end
 
-                        if Config.ReviveChance then
-                            TriggerEvent('basia:revivechance')
+                        if Config.effects then
+                            TriggerEvent('basia:effects')
                         else
-                            return 
+                            return
                         end
 
                         Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
@@ -206,6 +206,12 @@ Citizen.CreateThread(function()
                         return
                     else
                         TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
+                    end
+
+                    if Config.effects then
+                        TriggerEvent('basia:effects')
+                    else
+                        return
                     end
 
                     Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
@@ -403,4 +409,28 @@ end
 RegisterNetEvent('basia:inform')
 AddEventHandler('basia:inform', function()
     exports.mythic_notify:DoHudText('inform', 'Hospital said they do not confess to doctor mistake. Guess you are going bankrupt')
+end)
+
+RegisterNetEvent('basia:effects')
+AddEventHandler('basia:effects', function()
+    local playerPed = GetPlayerPed(-1)
+    local playerPed = PlayerPedId()
+  
+    Citizen.Wait(300)
+    ClearPedTasksImmediately(playerPed)
+    SetTimecycleModifier("spectator5")
+    SetPedMotionBlur(playerPed, true)
+    SetPedMovementClipset(playerPed, "MOVE_M@QUICK", true)
+    SetPedIsDrunk(playerPed, true)
+    AnimpostfxPlay("DrugsMichaelAliensFight", 50001, true)
+    ShakeGameplayCam("DRUNK_SHAKE", 3.0)
+    Citizen.Wait(Config.effectstime)
+    SetPedMoveRateOverride(PlayerId(),1.0)
+    SetRunSprintMultiplierForPlayer(PlayerId(),1.0)
+    SetPedIsDrunk(GetPlayerPed(-1), false)		
+    SetPedMotionBlur(playerPed, false)
+    ResetPedMovementClipset(GetPlayerPed(-1))
+    AnimpostfxStopAll()
+    ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+    SetTimecycleModifierStrength(0.0)
 end)
