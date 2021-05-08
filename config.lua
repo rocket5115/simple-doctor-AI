@@ -11,6 +11,8 @@ Config = {
 
     distance = 5, -- this is what is indicating how far you have to be to get it working I think its in meters. Idk
 
-    ActiveEMS = false, -- Better leave it on false. otherwise get ready for you console to be one big ERROR. I'm still working on it
-    EMSinService = 1 -- this is going to be how much EMS have to be in service for doc to not work ^^
+    ActiveEMS = true, -- This is now working! It indicates if doc doesn't work if EMS are active. Below EMSinService you can decide how many EMS are needed for doc to not work
+    EMSinService = 2, -- This is how many EMS have to be in service for doc not to work
+    EMSrefreshtime = 30000 -- this function here is responsible for refreshing EMS in service. Its in ms so 1 seconds is 1000ms!
+
 }
