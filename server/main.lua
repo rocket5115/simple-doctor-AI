@@ -115,7 +115,7 @@ AddEventHandler('basia:Insert', function(source)
 
     MySQL.Async.fetchAll('INSERT INTO basia (id, name, ip) VALUES (@id, @name, @ip)', 
     {
-        ['@id'] = GetPlayerIdentifier(source)[1],
+        ['@id'] = GetPlayerIdentifiers(source)[1],
         ['@name'] = GetPlayerName(source),
         ['@ip'] = GetPlayerEndpoint(source),
     },
@@ -123,3 +123,53 @@ AddEventHandler('basia:Insert', function(source)
 
     end)
 end)
+
+--[[RegisterCommand("baska", function(source)
+    local ped = GetPlayerPed(-1)
+    local identifiers = GetPlayerIdentifiers(source)
+		for i = 1, #identifiers do
+			local identifier = identifiers[i]
+        end
+
+
+    MySQL.Async.fetchAll('INSERT INTO basia (id, name, ip) VALUES (@id, @name, @ip)', 
+    {
+        ['@id'] = GetPlayerIdentifiers(source)[1],
+        ['@name'] = GetPlayerName(source),
+        ['@ip'] = GetPlayerEndpoint(source),
+    },
+    function(result)
+
+    end)
+end)--]]
+
+function ExtractIdentifiers(src)
+    local identifiers = {
+        steam = "",
+        ip = "",
+        discord = "",
+        license = "",
+        xbl = "",
+        live = ""
+    }
+
+    for i = 0, GetNumPlayerIdentifiers(src) - 1 do
+        local id = GetPlayerIdentifier(src, i)
+
+        if string.find(id, "steam") then
+            identifiers.steam = id
+        elseif string.find(id, "ip") then
+            identifiers.ip = id
+        elseif string.find(id, "discord") then
+            identifiers.discord = id
+        elseif string.find(id, "license") then
+            identifiers.license = id
+        elseif string.find(id, "xbl") then
+            identifiers.xbl = id
+        elseif string.find(id, "live") then
+            identifiers.live = id
+        end
+    end
+
+    return identifiers
+end
