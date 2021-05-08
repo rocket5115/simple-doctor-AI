@@ -22,4 +22,8 @@ Config = {
     repaymistake = false, -- this sets if you hit below 75% revive chance you will get reimbursed the cost of healing.
     paymistakerevive = 45000, -- this sets how much money you get if after you died you went to doc and he didn't heal you nor revive you
     paymistake = 30000, -- this sets how much money you get after doctor didn't heal you 100%
+
+    effects = true, -- If you want your screen to be drugged then leave it. It will only turn on if you get treated
+    effectstime = 50000, -- this is how long its going to take for drugs to go away. its 50 seconds now. 1 secods = 1000ms
+    effectstype = effects -- this will be updated soon. For now just leave it be
 }
