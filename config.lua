@@ -1,5 +1,8 @@
 Config = {
-    Locale = 'en', -- translation, rn its english and polish.
+    Locale = 'pl',
+
+    useMythic = true, -- This enables mythic_notify if you want to use it. Dont enable pNotify or else you'll have pNotify instead of mythic_notify
+    usepNotify = true, -- This enables pNotify if you want to use it. You must turn useMythic to true. Or else you'll have mythic_notify
 
     removeMoney = true, --this means that it costs money to get healed if your alive ofcourse
     Money = 30000, -- this indicates how much money does it cost to get you healed
@@ -12,6 +15,7 @@ Config = {
     textcoords = {x = 262.47, y = -1351.43, z = 24.54}, -- this is where motiontext is placed. leave it at coords where interractcoords are. Its going to work the best!
 
     distance = 5, -- this is what is indicating how far you have to be to get it working I think its in meters. Idk
+    textdistance = 50, -- this indicates how far you have to be to not be able to see the text!
 
     ActiveEMS = true, -- This is now working! It indicates if doc doesn't work if EMS are active. Below EMSinService you can decide how many EMS are needed for doc to not work
     EMSinService = 2, -- This is how many EMS have to be in service for doc not to work
@@ -27,5 +31,10 @@ Config = {
 
     effects = true, -- If you want your screen to be drugged then leave it. It will only turn on if you get treated
     effectstime = 50000, -- this is how long its going to take for drugs to go away. its 50 seconds now. 1 secods = 1000ms
-    effectstype = 'type1' -- you have 4 types of drug effects. type1, type2, type3 and type4. If you want non then just leave an empty space. It has a nil value implemented so its not going to crash your server)
+    effectstype = '', -- you have 4 types of drug effects. type1, type2, type3 and type4. If you want non then just leave an empty space. It has a nil value implemented so its not going to crash your server)
+
+    restorefood = true,
+    restorefoodamount = 1000000,
+    restorewater = true,
+    restorewateramount = 1000000,
 }
