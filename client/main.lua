@@ -40,9 +40,9 @@ Citizen.CreateThread(function() -- this thread creates our doctor on cordinates 
     for _, item in pairs(doc) do
         if not DoesEntityExist(dc) then
 
-            DeletePed(ped)
+            DeletePed(dc)
             
-            dc = CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, true, true)
+            dc = CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, false, true)
             SetBlockingOfNonTemporaryEvents(dc, true)
             SetPedDiesWhenInjured(dc, false)
             SetPedCanPlayAmbientAnims(dc, true)
@@ -51,7 +51,7 @@ Citizen.CreateThread(function() -- this thread creates our doctor on cordinates 
             FreezeEntityPosition(dc, true)
 
         elseif DoesEntityExist(dc) then
-            DeletePed(ped)
+            DeletePed(dc)
         end
     end
 end)
