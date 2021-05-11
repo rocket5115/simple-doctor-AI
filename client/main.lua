@@ -38,13 +38,27 @@ Citizen.CreateThread(function() -- this thread creates our doctor on cordinates 
     end
     
     for _, item in pairs(doc) do
-        dc = CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, true, true)
-        SetBlockingOfNonTemporaryEvents(dc, true)
-        SetPedDiesWhenInjured(dc, false)
-        SetPedCanPlayAmbientAnims(dc, true)
-        SetPedCanRagdollFromPlayerImpact(dc, false)
-        SetEntityInvincible(dc, true)
-        FreezeEntityPosition(dc, true)
+        if not DoesEntityExist(dc) then 
+            dc = CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, true, true)
+            SetBlockingOfNonTemporaryEvents(dc, true)
+            SetPedDiesWhenInjured(dc, false)
+            SetPedCanPlayAmbientAnims(dc, true)
+            SetPedCanRagdollFromPlayerImpact(dc, false)
+            SetEntityInvincible(dc, true)
+            FreezeEntityPosition(dc, true)
+
+        else 
+            SetEntityAsNoLongerNeeded()
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(10) 
+        if DoesEntityExist(dc) then
+            SetEntityAsNoLongerNeeded()
+        end
     end
 end)
 
@@ -62,14 +76,14 @@ Citizen.CreateThread(function()
                 if Config.ActiveEMS then
                     if enough then
                         Citizen.Wait(10)
-                        exports.mythic_notify:DoHudText('inform', 'Too many EMS!')
+                        exports.mythic_notify:DoHudText('inform', _U('EMS_error'))
                         Citizen.Wait(1000)
                     elseif not enough then
                         FreezeEntityPosition(ped, true)
                         SetPedCanRagdollFromPlayerImpact(ped, false)
                         SetEntityInvincible(ped, true)
 
-                        exports.mythic_notify:DoHudText('inform', 'Doctor is helping you!')
+                        exports.mythic_notify:DoHudText('inform', _U('start_message'))
 
                         Citizen.Wait(1000)
 
@@ -81,7 +95,7 @@ Citizen.CreateThread(function()
 
                         Citizen.Wait(1000)
 
-                        exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 15 seconds!')
+                        exports.mythic_notify:DoHudText('inform', _U('wait_message'))
 
                         Citizen.Wait(1000)
 
@@ -93,7 +107,7 @@ Citizen.CreateThread(function()
 
                         Citizen.Wait(1000)
 
-                        exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 10 seconds!')
+                        exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
 
                         Citizen.Wait(1000)
 
@@ -105,7 +119,7 @@ Citizen.CreateThread(function()
 
                         Citizen.Wait(1000)
 
-                        exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 5 seconds!')
+                        exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
 
                         Citizen.Wait(1000)
 
@@ -117,7 +131,7 @@ Citizen.CreateThread(function()
 
                         Citizen.Wait(1000)
 
-                        exports.mythic_notify:DoHudText('inform', 'Doctor helped you!')
+                        exports.mythic_notify:DoHudText('inform', _U('success_message'))
 
                         TriggerEvent('basia:statuscheck')
 
@@ -194,7 +208,7 @@ Citizen.CreateThread(function()
                     SetPedCanRagdollFromPlayerImpact(ped, false)
                     SetEntityInvincible(ped, true)
 
-                    exports.mythic_notify:DoHudText('inform', 'Doctor is helping you!')
+                    exports.mythic_notify:DoHudText('inform', _U('start_message'))
 
                     Citizen.Wait(1000)
 
@@ -206,7 +220,7 @@ Citizen.CreateThread(function()
 
                     Citizen.Wait(1000)
 
-                    exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 15 seconds!')
+                    exports.mythic_notify:DoHudText('inform', _U('wait_message'))
 
                     Citizen.Wait(1000)
 
@@ -218,7 +232,7 @@ Citizen.CreateThread(function()
 
                     Citizen.Wait(1000)
 
-                    exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 10 seconds!')
+                    exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
 
                     Citizen.Wait(1000)
 
@@ -230,7 +244,7 @@ Citizen.CreateThread(function()
 
                     Citizen.Wait(1000)
 
-                    exports.mythic_notify:DoHudText('inform', 'Doctor will help you in 5 seconds!')
+                    exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
 
                     Citizen.Wait(1000)
 
@@ -242,7 +256,7 @@ Citizen.CreateThread(function()
 
                     Citizen.Wait(1000)
 
-                    exports.mythic_notify:DoHudText('inform', 'Doctor helped you!')
+                    exports.mythic_notify:DoHudText('inform', _U('success_message'))
 
                     TriggerEvent('basia:statuscheck')
                     
@@ -324,14 +338,14 @@ Citizen.CreateThread(function() -- here is the motiontext
     exports.motiontext:Draw3DText({
         xyz=Config.textcoords,
         text={
-            content="~b~Press ~r~[E] ~b~to seek help from doctor", -- change this text if you want :)
+            content=_U('text_content'), -- change this text if you want :)
             rgb={255 , 255, 55},
             textOutline=true,
             scaleMultiplier=1,
             font=0
         },
         perspectiveScale=4,
-        radius=5000,
+        radius=50,
     }) 
     end
 end)
