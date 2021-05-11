@@ -76,62 +76,77 @@ Citizen.CreateThread(function()
                 if Config.ActiveEMS then
                     if enough then
                         Citizen.Wait(10)
-                        exports.mythic_notify:DoHudText('inform', _U('EMS_error'))
+                        if Config.useMythic then
+                            if Config.usepNotify then
+                                exports.pNotify:SendNotification({text = _U('EMS_error'), type = "info", timeout = 2500})
+                            else
+                                exports.mythic_notify:DoHudText('inform', _U('EMS_error'))
+                            end
+                        else
+                            return
+                        end
                         Citizen.Wait(1000)
                     elseif not enough then
                         FreezeEntityPosition(ped, true)
                         SetPedCanRagdollFromPlayerImpact(ped, false)
                         SetEntityInvincible(ped, true)
 
-                        exports.mythic_notify:DoHudText('inform', _U('start_message'))
+                        if Config.useMythic then
+                            if Config.usepNotify then
+                                exports.pNotify:SendNotification({text = _U('start_message'), type = "info", timeout = 2500})
+                            else
+                                exports.mythic_notify:DoHudText('inform', _U('start_message'))
+                            end
+                        else
+                            return
+                        end
+                        Citizen.Wait(5000)
 
-                        Citizen.Wait(1000)
+                        if Config.useMythic then
+                            if Config.usepNotify then
+                                exports.pNotify:SendNotification({text = _U('wait_message'), type = "info", timeout = 2500})
+                            else
+                                exports.mythic_notify:DoHudText('inform', _U('wait_message'))
+                            end
+                        else
+                            return
+                        end
 
-                        Citizen.Wait(1000)
+                        Citizen.Wait(5000)
 
-                        Citizen.Wait(1000)
+                        if Config.useMythic then
+                            if Config.usepNotify then
+                                exports.pNotify:SendNotification({text = _U('wait_message2'), type = "info", timeout = 2500})
+                            else
+                                exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
+                            end
+                        else
+                            return
+                        end
 
-                        Citizen.Wait(1000)
+                        Citizen.Wait(5000)
 
-                        Citizen.Wait(1000)
+                        if Config.useMythic then
+                            if Config.usepNotify then
+                                exports.pNotify:SendNotification({text = _U('wait_message3'), type = "info", timeout = 2500})
+                            else
+                                exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
+                            end
+                        else
+                            return
+                        end
 
-                        exports.mythic_notify:DoHudText('inform', _U('wait_message'))
+                        Citizen.Wait(5000)
 
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        Citizen.Wait(1000)
-
-                        exports.mythic_notify:DoHudText('inform', _U('success_message'))
+                        if Config.useMythic then
+                            if Config.usepNotify then
+                                exports.pNotify:SendNotification({text = _U('success_message'), type = "info", timeout = 2500})
+                            else
+                                exports.mythic_notify:DoHudText('inform', _U('success_message'))
+                            end
+                        else
+                            return
+                        end
 
                         TriggerEvent('basia:statuscheck')
 
@@ -178,7 +193,15 @@ Citizen.CreateThread(function()
 
                             elseif Config.effectstype == nil then
 
-                                exports.mythic_notify:DoHudText('inform', 'no other symptoms!')
+                                if Config.useMythic then
+                                    if Config.usepNotify then
+                                        exports.pNotify:SendNotification({text = "no other symptoms", type = "info", timeout = 2500})
+                                    else
+                                        exports.mythic_notify:DoHudText('inform', "no other symptoms")
+                                    end
+                                else
+                                    return
+                                end
                                 
                                 FreezeEntityPosition(ped, false)
                                 SetPedCanRagdollFromPlayerImpact(ped, true)
@@ -208,55 +231,62 @@ Citizen.CreateThread(function()
                     SetPedCanRagdollFromPlayerImpact(ped, false)
                     SetEntityInvincible(ped, true)
 
-                    exports.mythic_notify:DoHudText('inform', _U('start_message'))
+                    if Config.useMythic then
+                        if Config.usepNotify then
+                            exports.pNotify:SendNotification({text = _U('start_message'), type = "info", timeout = 2500})
+                        else
+                            exports.mythic_notify:DoHudText('inform', _U('start_message'))
+                        end
+                    else
+                        return
+                    end
+                    Citizen.Wait(5000)
 
-                    Citizen.Wait(1000)
+                    if Config.useMythic then
+                        if Config.usepNotify then
+                            exports.pNotify:SendNotification({text = _U('wait_message'), type = "info", timeout = 2500})
+                        else
+                            exports.mythic_notify:DoHudText('inform', _U('wait_message'))
+                        end
+                    else
+                        return
+                    end
 
-                    Citizen.Wait(1000)
+                    Citizen.Wait(5000)
 
-                    Citizen.Wait(1000)
+                    if Config.useMythic then
+                        if Config.usepNotify then
+                            exports.pNotify:SendNotification({text = _U('wait_message2'), type = "info", timeout = 2500})
+                        else
+                            exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
+                        end
+                    else
+                        return
+                    end
 
-                    Citizen.Wait(1000)
+                    Citizen.Wait(5000)
 
-                    Citizen.Wait(1000)
+                    if Config.useMythic then
+                        if Config.usepNotify then
+                            exports.pNotify:SendNotification({text = _U('wait_message3'), type = "info", timeout = 2500})
+                        else
+                            exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
+                        end
+                    else
+                        return
+                    end
 
-                    exports.mythic_notify:DoHudText('inform', _U('wait_message'))
+                    Citizen.Wait(5000)
 
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    Citizen.Wait(1000)
-
-                    exports.mythic_notify:DoHudText('inform', _U('success_message'))
+                    if Config.useMythic then
+                        if Config.usepNotify then
+                            exports.pNotify:SendNotification({text = _U('success_message'), type = "info", timeout = 2500})
+                        else
+                            exports.mythic_notify:DoHudText('inform', _U('success_message'))
+                        end
+                    else
+                        return
+                    end
 
                     TriggerEvent('basia:statuscheck')
                     
@@ -303,7 +333,15 @@ Citizen.CreateThread(function()
 
                         elseif Config.effectstype == nil then
 
-                            exports.mythic_notify:DoHudText('inform', 'no side effects!')
+                            if Config.useMythic then
+                                if Config.usepNotify then
+                                    exports.pNotify:SendNotification({text = "no other symptoms", type = "info", timeout = 2500})
+                                else
+                                    exports.mythic_notify:DoHudText('inform', "no other symptoms")
+                                end
+                            else
+                                return
+                            end
                             
                             FreezeEntityPosition(ped, false)
                             SetPedCanRagdollFromPlayerImpact(ped, true)
@@ -345,7 +383,7 @@ Citizen.CreateThread(function() -- here is the motiontext
             font=0
         },
         perspectiveScale=4,
-        radius=50,
+        radius=Config.textdistance,
     }) 
     end
 end)
@@ -435,7 +473,15 @@ AddEventHandler('basia:revivechance', function()
             else
                 return
             end
-            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged so much!')
+            if Config.useMythic then
+                if Config.usepNotify then
+                    exports.pNotify:SendNotification({text = "Doctor made mistake and you wont be charged!", type = "info", timeout = 2500})
+                else
+                    exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged!')
+                end
+            else
+                return
+            end
         end
     elseif revivechance() >= 50 then
         if GetEntityHealth(ped) == 0 then
@@ -455,7 +501,15 @@ AddEventHandler('basia:revivechance', function()
             else
                 return
             end
-            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged!')
+            if Config.useMythic then
+                if Config.usepNotify then
+                    exports.pNotify:SendNotification({text = "Doctor made mistake and you wont be charged!", type = "info", timeout = 2500})
+                else
+                    exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged!')
+                end
+            else
+                return
+            end
         elseif GetEntityHealth(ped) >= 20 then
             Citizen.Wait(1000)
             SetEntityHealth(ped, 150)
@@ -469,7 +523,15 @@ AddEventHandler('basia:revivechance', function()
             else
                 return
             end
-            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged so much!')
+            if Config.useMythic then
+                if Config.usepNotify then
+                    exports.pNotify:SendNotification({text = "Doctor made mistake and you wont be charged!", type = "info", timeout = 2500})
+                else
+                    exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged!')
+                end
+            else
+                return
+            end
         elseif GetEntityHealth(ped) >= 100 then
             Citizen.Wait(1000)
             SetEntityHealth(ped, 150)
@@ -483,24 +545,56 @@ AddEventHandler('basia:revivechance', function()
             else
                 return
             end
-            exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged so much!')
+            if Config.useMythic then
+                if Config.usepNotify then
+                    exports.pNotify:SendNotification({text = "Doctor made mistake and you wont be charged so much!", type = "info", timeout = 2500})
+                else
+                    exports.mythic_notify:DoHudText('inform', 'Doctor made mistake and you wont be charged so much!')
+                end
+            else
+                return
+            end
         end
     elseif revivechance() >= 75 then
         if GetEntityHealth(ped) == 0 then
             Citizen.Wait(1000)
             SetEntityHealth(ped, 200)
             Citizen.Wait(10)
-            exports.mythic_notify:DoHudText('inform', 'Doctor Healed you so you get to live another day!')
+            if Config.useMythic then
+                if Config.usepNotify then
+                    exports.pNotify:SendNotification({text = "Doctor Healed you so you get to live another day!", type = "info", timeout = 2500})
+                else
+                    exports.mythic_notify:DoHudText('inform', 'Doctor Healed you so you get to live another day!')
+                end
+            else
+                return
+            end
         elseif GetEntityHealth(ped) >= 20 then
             Citizen.Wait(1000)
             SetEntityHealth(ped, 200)
             Citizen.Wait(10)
-            exports.mythic_notify:DoHudText('inform', 'Doctor Healed you so you get to live another day!')
+            if Config.useMythic then
+                if Config.usepNotify then
+                    exports.pNotify:SendNotification({text = "Doctor Healed you so you get to live another day!", type = "info", timeout = 2500})
+                else
+                    exports.mythic_notify:DoHudText('inform', 'Doctor Healed you so you get to live another day!')
+                end
+            else
+                return
+            end
         elseif GetEntityHealth(ped) >= 100 then
             Citizen.Wait(1000)
             SetEntityHealth(ped, 200)
             Citizen.Wait(10)
-            exports.mythic_notify:DoHudText('inform', 'Doctor Healed you so you get to live another day!')
+            if Config.useMythic then
+                if Config.usepNotify then
+                    exports.pNotify:SendNotification({text = "Doctor Healed you so you get to live another day!", type = "info", timeout = 2500})
+                else
+                    exports.mythic_notify:DoHudText('inform', 'Doctor Healed you so you get to live another day!')
+                end
+            else
+                return
+            end
         end
     end
 end)
