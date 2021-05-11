@@ -1,5 +1,5 @@
 Config = {
-    Locale = 'en',
+    Locale = 'en', -- translation, rn its english and polish.
 
     removeMoney = true, --this means that it costs money to get healed if your alive ofcourse
     Money = 30000, -- this indicates how much money does it cost to get you healed
