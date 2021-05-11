@@ -2,7 +2,7 @@ Config = {
     Locale = 'pl',
 
     useMythic = true, -- This enables mythic_notify if you want to use it. Dont enable pNotify or else you'll have pNotify instead of mythic_notify
-    usepNotify = true, -- This enables pNotify if you want to use it. You must turn useMythic to true. Or else you'll have mythic_notify
+    usepNotify = false, -- This enables pNotify if you want to use it. You must turn useMythic to true. Or else you'll have mythic_notify
 
     removeMoney = true, --this means that it costs money to get healed if your alive ofcourse
     Money = 30000, -- this indicates how much money does it cost to get you healed
