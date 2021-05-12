@@ -67,6 +67,24 @@ end)
 
 Citizen.CreateThread(function()
     while true do
+        Citizen.Wait(10)
+        local playerCoord = GetEntityCoords(PlayerPedId(), false)
+        local Vector = vector3(Config.interactcoords.x, Config.interactcoords.y, Config.interactcoords.z)
+
+        if Config.EnableControl then
+            if Vdist2(playerCoord, Vector) then
+                EnableControlAction(1, Config.ActivateControl, true)
+            else
+                return
+            end
+        else
+            return
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
         Citizen.Wait(10) -- leave it on 10ms or either cry its using too much resources ;)
 
         local ped = GetPlayerPed(-1)
@@ -75,7 +93,7 @@ Citizen.CreateThread(function()
         
         if Vdist2(playerCoord, Vector) < Config.distance then -- this checks distance between you and doc ;)
 
-            if IsControlJustPressed(1, 46) then -- control is just pressed *e* then do the reviving
+            if IsControlJustPressed(1, Config.ActivateControl) then -- control is just pressed *e* then do the reviving
                 if Config.ActiveEMS then
                     if enough then
                         Citizen.Wait(10)
@@ -375,19 +393,25 @@ end)
 
 Citizen.CreateThread(function() -- here is the motiontext
     while true do
-    Citizen.Wait(1)
-    exports.motiontext:Draw3DText({
-        xyz=Config.textcoords,
-        text={
-            content=_U('text_content'), -- change this text if you want :)
-            rgb={255 , 255, 55},
-            textOutline=true,
-            scaleMultiplier=1,
-            font=0
-        },
-        perspectiveScale=4,
-        radius=Config.textdistance,
-    }) 
+        local playerCoord = GetEntityCoords(PlayerPedId(), false)
+        local textcoords = vector3(Config.textcoords.x, Config.textcoords.y, Config.textcoords.z)
+        Citizen.Wait(1)
+        if Config.usemotiontext then
+            exports.motiontext:Draw3DText({
+                xyz=Config.textcoords,
+                text={
+                    content=_U('text_content'), 
+                    rgb={255 , 255, 55},
+                    textOutline=true,
+                    scaleMultiplier=1,
+                    font=0
+                },
+                perspectiveScale=4,
+                radius=Config.textdistance,
+            }) 
+        elseif Vdist2(playerCoord, textcoords) < Config.textdistance then
+            DrawText3Ds(Config.textcoords.x, Config.textcoords.y, Config.textcoords.z, _U('text_content'))
+        end
     end
 end)
 
@@ -751,4 +775,20 @@ function Normal()
         ShakeGameplayCam("DRUNK_SHAKE", 0.0)
         SetTimecycleModifierStrength(0.0)
     end)
+end
+
+function DrawText3Ds(x, y, z, text)
+	local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+	local factor = #text / 460
+	local px,py,pz=table.unpack(GetGameplayCamCoords())
+	
+	SetTextScale(0.3, 0.3)
+	SetTextFont(6)
+	SetTextProportional(1)
+	SetTextColour(255, 255, 255, 160)
+	SetTextEntry("STRING")
+	SetTextCentre(1)
+	AddTextComponentString(text)
+	DrawText(_x,_y)
+	DrawRect(_x,_y + 0.0115, 0.02 + factor, 0.027, 28, 28, 28, 95)
 end
