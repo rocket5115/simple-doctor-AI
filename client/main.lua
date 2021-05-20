@@ -28,7 +28,19 @@ AddEventHandler('basia:enough', function()
 end)
 
 local doc = {
-    {type=4, hash=-730659924, x=Config.PedPos.x, y=Config.PedPos.y, z=Config.PedPos.z, a=229.46}, --its hash of our doc
+    {type=4, hash=-730659924, x = Config.PedPos.x, y = Config.PedPos.y, z = Config.PedPos.z, a=229.46}, --its hash of our doc
+}
+
+local doc2 = {
+    {type=4, hash=-730659924, x = Config.PedPos2.x, y = Config.PedPos2.y, z = Config.PedPos2.z, a=210.38}, --its hash of our doc
+}
+
+local doc3 = {
+    {type=4, hash=-730659924, x = Config.PedPos3.x, y = Config.PedPos3.y, z = Config.PedPos3.z, a=46.64}, --its hash of our doc
+}
+
+local doc4 = {
+    {type=4, hash=-730659924, x = Config.PedPos4.x, y = Config.PedPos4.y, z = Config.PedPos4.z, a=267.75}, --its hash of our doc
 }
     
 Citizen.CreateThread(function() -- this thread creates our doctor on cordinates in config.pedpos
@@ -37,21 +49,83 @@ Citizen.CreateThread(function() -- this thread creates our doctor on cordinates 
         Wait(1)
     end
     
-    for _, item in pairs(doc) do
-        if not DoesEntityExist(dc) then
+    if Config.EnableFirstPed then
+        for _, item in pairs(doc) do
+            if not DoesEntityExist(dc) then
 
-            DeletePed(dc)
-            
-            dc = CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, false, true)
-            SetBlockingOfNonTemporaryEvents(dc, true)
-            SetPedDiesWhenInjured(dc, false)
-            SetPedCanPlayAmbientAnims(dc, true)
-            SetPedCanRagdollFromPlayerImpact(dc, false)
-            SetEntityInvincible(dc, true)
-            FreezeEntityPosition(dc, true)
+                DeletePed(dc)
+                
+                dc = CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, false, true)
+                SetBlockingOfNonTemporaryEvents(dc, true)
+                SetPedDiesWhenInjured(dc, false)
+                SetPedCanPlayAmbientAnims(dc, true)
+                SetPedCanRagdollFromPlayerImpact(dc, false)
+                SetEntityInvincible(dc, true)
+                FreezeEntityPosition(dc, true)
 
-        elseif DoesEntityExist(dc) then
-            DeletePed(dc)
+            elseif DoesEntityExist(dc) then
+                DeletePed(dc)
+            end
+        end
+    end
+    
+    if Config.EnableSecondPed then
+        for _, item2 in pairs(doc2) do
+            if not DoesEntityExist(dc2) then
+
+                DeletePed(dc2)
+                    
+                dc2 = CreatePed(item2.type, item2.hash, item2.x, item2.y, item2.z, item2.a, false, true)
+                SetBlockingOfNonTemporaryEvents(dc2, true)
+                SetPedDiesWhenInjured(dc2, false)
+                SetPedCanPlayAmbientAnims(dc2, true)
+                SetPedCanRagdollFromPlayerImpact(dc, false)
+                SetEntityInvincible(dc2, true)
+                FreezeEntityPosition(dc2, true)
+        
+            elseif DoesEntityExist(dc2) then
+                DeletePed(dc2)
+            end
+        end
+    end
+
+    if Config.EnableThirdPed then
+        for _, item3 in pairs(doc3) do
+            if not DoesEntityExist(dc3) then
+
+                DeletePed(dc3)
+                    
+                dc3 = CreatePed(item3.type, item3.hash, item3.x, item3.y, item3.z, item3.a, false, true)
+                SetBlockingOfNonTemporaryEvents(dc3, true)
+                SetPedDiesWhenInjured(dc3, false)
+                SetPedCanPlayAmbientAnims(dc3, true)
+                SetPedCanRagdollFromPlayerImpact(dc, false)
+                SetEntityInvincible(dc3, true)
+                FreezeEntityPosition(dc3, true)
+        
+            elseif DoesEntityExist(dc3) then
+                DeletePed(dc3)
+            end
+        end
+    end
+
+    if Config.EnableFourthPed then
+        for _, item4 in pairs(doc4) do
+            if not DoesEntityExist(dc4) then
+
+                DeletePed(dc4)
+                    
+                dc4 = CreatePed(item4.type, item4.hash, item4.x, item4.y, item4.z, item4.a, false, true)
+                SetBlockingOfNonTemporaryEvents(dc4, true)
+                SetPedDiesWhenInjured(dc4, false)
+                SetPedCanPlayAmbientAnims(dc4, true)
+                SetPedCanRagdollFromPlayerImpact(dc, false)
+                SetEntityInvincible(dc4, true)
+                FreezeEntityPosition(dc4, true)
+        
+            elseif DoesEntityExist(dc4) then
+                DeletePed(dc4)
+            end
         end
     end
 end)
@@ -61,24 +135,36 @@ Citizen.CreateThread(function()
         Citizen.Wait(10) 
         if DoesEntityExist(dc) then
             DeletePed(ped)
+        elseif DoesEntityExist(dc2) then
+            DeletePed(ped)
+        elseif DoesEntityExist(dc3) then
+            DeletePed(ped)
+        elseif DoesEntityExist(dc4) then
+            DeletePed(ped)
         end
     end
 end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(10)
-        local playerCoord = GetEntityCoords(PlayerPedId(), false)
-        local Vector = vector3(Config.interactcoords.x, Config.interactcoords.y, Config.interactcoords.z)
+        Citizen.Wait(0)
 
-        if Config.EnableControl then
-            if Vdist2(playerCoord, Vector) then
-                EnableControlAction(1, Config.ActivateControl, true)
-            else
-                return
+        for k,v in pairs(Config.Zones) do
+            for i=1, #v.textcoords, 1 do
+
+                local playerCoord = GetEntityCoords(PlayerPedId(), false)
+                local Vector = vector3(v.textcoords[i].x, v.textcoords[i].y, v.textcoords[i].z)
+
+                if Config.EnableControl then
+                    if Vdist2(playerCoord, Vector) then
+                        EnableControlAction(1, Config.ActivateControl, true)
+                    else
+                        return
+                    end
+                else
+                    return
+                end
             end
-        else
-            return
         end
     end
 end)
@@ -87,304 +173,309 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(10) -- leave it on 10ms or either cry its using too much resources ;)
 
-        local ped = GetPlayerPed(-1)
-        local playerCoord = GetEntityCoords(PlayerPedId(), false)
-        local Vector = vector3(Config.interactcoords.x, Config.interactcoords.y, Config.interactcoords.z)
-        
-        if Vdist2(playerCoord, Vector) < Config.distance then -- this checks distance between you and doc ;)
+        for k,v in pairs(Config.Zones) do
+            for i=1, #v.interactcoords, 1 do
 
-            if IsControlJustPressed(1, Config.ActivateControl) then -- control is just pressed *e* then do the reviving
-                if Config.ActiveEMS then
-                    if enough then
-                        Citizen.Wait(10)
-                        if Config.useMythic then
-                            if Config.usepNotify then
-                                exports.pNotify:SendNotification({text = _U('EMS_error'), type = "info", timeout = 2500})
-                            else
-                                exports.mythic_notify:DoHudText('inform', _U('EMS_error'))
-                            end
-                        else
-                            return
-                        end
-                        Citizen.Wait(1000)
-                    elseif not enough then
-                        FreezeEntityPosition(ped, true)
-                        SetPedCanRagdollFromPlayerImpact(ped, false)
-                        SetEntityInvincible(ped, true)
+                local ped = GetPlayerPed(-1)
+                local playerCoord = GetEntityCoords(PlayerPedId(), false)
+                local Vector = vector3(v.interactcoords[i].x, v.interactcoords[i].y, v.interactcoords[i].z)
+                
+                if Vdist2(playerCoord, Vector) < Config.distance then -- this checks distance between you and doc ;)
 
-                        if Config.useMythic then
-                            if Config.usepNotify then
-                                exports.pNotify:SendNotification({text = _U('start_message'), type = "info", timeout = 2500})
-                            else
-                                exports.mythic_notify:DoHudText('inform', _U('start_message'))
-                            end
-                        else
-                            return
-                        end
-                        Citizen.Wait(5000)
-
-                        if Config.useMythic then
-                            if Config.usepNotify then
-                                exports.pNotify:SendNotification({text = _U('wait_message'), type = "info", timeout = 2500})
-                            else
-                                exports.mythic_notify:DoHudText('inform', _U('wait_message'))
-                            end
-                        else
-                            return
-                        end
-
-                        Citizen.Wait(5000)
-
-                        if Config.useMythic then
-                            if Config.usepNotify then
-                                exports.pNotify:SendNotification({text = _U('wait_message2'), type = "info", timeout = 2500})
-                            else
-                                exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
-                            end
-                        else
-                            return
-                        end
-
-                        Citizen.Wait(5000)
-
-                        if Config.useMythic then
-                            if Config.usepNotify then
-                                exports.pNotify:SendNotification({text = _U('wait_message3'), type = "info", timeout = 2500})
-                            else
-                                exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
-                            end
-                        else
-                            return
-                        end
-
-                        Citizen.Wait(5000)
-
-                        if Config.useMythic then
-                            if Config.usepNotify then
-                                exports.pNotify:SendNotification({text = _U('success_message'), type = "info", timeout = 2500})
-                            else
-                                exports.mythic_notify:DoHudText('inform', _U('success_message'))
-                            end
-                        else
-                            return
-                        end
-
-                        TriggerEvent('basia:statuscheck')
-
-                        Citizen.Wait(1000) -- this little guy here is giving basia:statuscheck time to really check if guy is dead or not
-                        if IsPlayerDead(ped) then --It doesn't really seem to do anything. This IsPlayerDead(ped) is because that way it has a chance to check if you are actually dead. I haven't tested it so don't blame me!
-                            return
-                        else
-                            TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
-                        end
-
-                        if Config.effects then
-                            if Config.effectstype == 'type1' then
-    
-                                TriggerEvent('basia:effects')
-
-                                FreezeEntityPosition(ped, false)
-                                SetPedCanRagdollFromPlayerImpact(ped, true)
-                                SetEntityInvincible(ped, false)
-
-    
-                            elseif Config.effectstype == 'type2' then
-    
-                                TriggerEvent('basia:effects2')
-    
-                                FreezeEntityPosition(ped, false)
-                                SetPedCanRagdollFromPlayerImpact(ped, true)
-                                SetEntityInvincible(ped, false)
-
-                            elseif Config.effectstype == 'type3' then
-    
-                                TriggerEvent('basia:effects3')
-                                
-                                FreezeEntityPosition(ped, false)
-                                SetPedCanRagdollFromPlayerImpact(ped, true)
-                                SetEntityInvincible(ped, false)
-
-                            elseif Config.effectstype == 'type4' then
-    
-                                TriggerEvent('basia:effects4')
-    
-                                FreezeEntityPosition(ped, false)
-                                SetPedCanRagdollFromPlayerImpact(ped, true)
-                                SetEntityInvincible(ped, false)
-
-                            elseif Config.effectstype == nil then
-
+                    if IsControlJustPressed(1, Config.ActivateControl) then -- control is just pressed *e* then do the reviving
+                        if Config.ActiveEMS then
+                            if enough then
+                                Citizen.Wait(10)
                                 if Config.useMythic then
                                     if Config.usepNotify then
-                                        exports.pNotify:SendNotification({text = "no other symptoms", type = "info", timeout = 2500})
+                                        exports.pNotify:SendNotification({text = _U('EMS_error'), type = "info", timeout = 2500})
                                     else
-                                        exports.mythic_notify:DoHudText('inform', "no other symptoms")
+                                        exports.mythic_notify:DoHudText('inform', _U('EMS_error'))
                                     end
                                 else
                                     return
                                 end
-                                
+                                Citizen.Wait(1000)
+                            elseif not enough then
+                                FreezeEntityPosition(ped, true)
+                                SetPedCanRagdollFromPlayerImpact(ped, false)
+                                SetEntityInvincible(ped, true)
+
+                                if Config.useMythic then
+                                    if Config.usepNotify then
+                                        exports.pNotify:SendNotification({text = _U('start_message'), type = "info", timeout = 2500})
+                                    else
+                                        exports.mythic_notify:DoHudText('inform', _U('start_message'))
+                                    end
+                                else
+                                    return
+                                end
+                                Citizen.Wait(5000)
+
+                                if Config.useMythic then
+                                    if Config.usepNotify then
+                                        exports.pNotify:SendNotification({text = _U('wait_message'), type = "info", timeout = 2500})
+                                    else
+                                        exports.mythic_notify:DoHudText('inform', _U('wait_message'))
+                                    end
+                                else
+                                    return
+                                end
+
+                                Citizen.Wait(5000)
+
+                                if Config.useMythic then
+                                    if Config.usepNotify then
+                                        exports.pNotify:SendNotification({text = _U('wait_message2'), type = "info", timeout = 2500})
+                                    else
+                                        exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
+                                    end
+                                else
+                                    return
+                                end
+
+                                Citizen.Wait(5000)
+
+                                if Config.useMythic then
+                                    if Config.usepNotify then
+                                        exports.pNotify:SendNotification({text = _U('wait_message3'), type = "info", timeout = 2500})
+                                    else
+                                        exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
+                                    end
+                                else
+                                    return
+                                end
+
+                                Citizen.Wait(5000)
+
+                                if Config.useMythic then
+                                    if Config.usepNotify then
+                                        exports.pNotify:SendNotification({text = _U('success_message'), type = "info", timeout = 2500})
+                                    else
+                                        exports.mythic_notify:DoHudText('inform', _U('success_message'))
+                                    end
+                                else
+                                    return
+                                end
+
+                                TriggerEvent('basia:statuscheck')
+
+                                Citizen.Wait(1000) -- this little guy here is giving basia:statuscheck time to really check if guy is dead or not
+                                if IsPlayerDead(ped) then --It doesn't really seem to do anything. This IsPlayerDead(ped) is because that way it has a chance to check if you are actually dead. I haven't tested it so don't blame me!
+                                    return
+                                else
+                                    TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
+                                end
+
+                                if Config.effects then
+                                    if Config.effectstype == 'type1' then
+            
+                                        TriggerEvent('basia:effects')
+
+                                        FreezeEntityPosition(ped, false)
+                                        SetPedCanRagdollFromPlayerImpact(ped, true)
+                                        SetEntityInvincible(ped, false)
+
+            
+                                    elseif Config.effectstype == 'type2' then
+            
+                                        TriggerEvent('basia:effects2')
+            
+                                        FreezeEntityPosition(ped, false)
+                                        SetPedCanRagdollFromPlayerImpact(ped, true)
+                                        SetEntityInvincible(ped, false)
+
+                                    elseif Config.effectstype == 'type3' then
+            
+                                        TriggerEvent('basia:effects3')
+                                        
+                                        FreezeEntityPosition(ped, false)
+                                        SetPedCanRagdollFromPlayerImpact(ped, true)
+                                        SetEntityInvincible(ped, false)
+
+                                    elseif Config.effectstype == 'type4' then
+            
+                                        TriggerEvent('basia:effects4')
+            
+                                        FreezeEntityPosition(ped, false)
+                                        SetPedCanRagdollFromPlayerImpact(ped, true)
+                                        SetEntityInvincible(ped, false)
+
+                                    elseif Config.effectstype == nil then
+
+                                        if Config.useMythic then
+                                            if Config.usepNotify then
+                                                exports.pNotify:SendNotification({text = "no other symptoms", type = "info", timeout = 2500})
+                                            else
+                                                exports.mythic_notify:DoHudText('inform', "no other symptoms")
+                                            end
+                                        else
+                                            return
+                                        end
+                                        
+                                        FreezeEntityPosition(ped, false)
+                                        SetPedCanRagdollFromPlayerImpact(ped, true)
+                                        SetEntityInvincible(ped, false)
+
+                                        Citizen.Wait(10)
+                                    end
+                                else
+                                    FreezeEntityPosition(ped, false)
+                                    SetPedCanRagdollFromPlayerImpact(ped, true)
+                                    SetEntityInvincible(ped, false)
+                                end
+
+                                Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
+
+                                SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
+
                                 FreezeEntityPosition(ped, false)
                                 SetPedCanRagdollFromPlayerImpact(ped, true)
                                 SetEntityInvincible(ped, false)
 
-                                Citizen.Wait(10)
+                                Citizen.Wait(1000) -- and this thing just gives a little bit more time so the script can process this request more efficiently
+
                             end
                         else
-                            FreezeEntityPosition(ped, false)
-                            SetPedCanRagdollFromPlayerImpact(ped, true)
-                            SetEntityInvincible(ped, false)
-                        end
-
-                        Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
-
-                        SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
-
-                        FreezeEntityPosition(ped, false)
-                        SetPedCanRagdollFromPlayerImpact(ped, true)
-                        SetEntityInvincible(ped, false)
-
-                        Citizen.Wait(1000) -- and this thing just gives a little bit more time so the script can process this request more efficiently
-
-                    end
-                else
-                    FreezeEntityPosition(ped, true)
-                    SetPedCanRagdollFromPlayerImpact(ped, false)
-                    SetEntityInvincible(ped, true)
-
-                    if Config.useMythic then
-                        if Config.usepNotify then
-                            exports.pNotify:SendNotification({text = _U('start_message'), type = "info", timeout = 2500})
-                        else
-                            exports.mythic_notify:DoHudText('inform', _U('start_message'))
-                        end
-                    else
-                        return
-                    end
-                    Citizen.Wait(5000)
-
-                    if Config.useMythic then
-                        if Config.usepNotify then
-                            exports.pNotify:SendNotification({text = _U('wait_message'), type = "info", timeout = 2500})
-                        else
-                            exports.mythic_notify:DoHudText('inform', _U('wait_message'))
-                        end
-                    else
-                        return
-                    end
-
-                    Citizen.Wait(5000)
-
-                    if Config.useMythic then
-                        if Config.usepNotify then
-                            exports.pNotify:SendNotification({text = _U('wait_message2'), type = "info", timeout = 2500})
-                        else
-                            exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
-                        end
-                    else
-                        return
-                    end
-
-                    Citizen.Wait(5000)
-
-                    if Config.useMythic then
-                        if Config.usepNotify then
-                            exports.pNotify:SendNotification({text = _U('wait_message3'), type = "info", timeout = 2500})
-                        else
-                            exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
-                        end
-                    else
-                        return
-                    end
-
-                    Citizen.Wait(5000)
-
-                    if Config.useMythic then
-                        if Config.usepNotify then
-                            exports.pNotify:SendNotification({text = _U('success_message'), type = "info", timeout = 2500})
-                        else
-                            exports.mythic_notify:DoHudText('inform', _U('success_message'))
-                        end
-                    else
-                        return
-                    end
-
-                    TriggerEvent('basia:statuscheck')
-                    
-                    Citizen.Wait(1000) -- this little guy here is giving basia:statuscheck time to really check if guy is dead or not
-                    if IsPlayerDead(ped) then --It doesn't really seem to do anything. This IsPlayerDead(ped) is because that way it has a chance to check if you are actually dead. I haven't tested it so don't blame me!
-                        return
-                    else
-                        TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
-                    end
-
-                    if Config.effects then
-                        if Config.effectstype == 'type1' then
-
-                            TriggerEvent('basia:effects')
-
-                            FreezeEntityPosition(ped, false)
-                            SetPedCanRagdollFromPlayerImpact(ped, true)
-                            SetEntityInvincible(ped, false)
-
-
-                        elseif Config.effectstype == 'type2' then
-
-                            TriggerEvent('basia:effects2')
-
-                            FreezeEntityPosition(ped, false)
-                            SetPedCanRagdollFromPlayerImpact(ped, true)
-                            SetEntityInvincible(ped, false)
-
-                        elseif Config.effectstype == 'type3' then
-
-                            TriggerEvent('basia:effects3')
-                            
-                            FreezeEntityPosition(ped, false)
-                            SetPedCanRagdollFromPlayerImpact(ped, true)
-                            SetEntityInvincible(ped, false)
-
-                        elseif Config.effectstype == 'type4' then
-
-                            TriggerEvent('basia:effects4')
-
-                            FreezeEntityPosition(ped, false)
-                            SetPedCanRagdollFromPlayerImpact(ped, true)
-                            SetEntityInvincible(ped, false)
-
-                        elseif Config.effectstype == nil then
+                            FreezeEntityPosition(ped, true)
+                            SetPedCanRagdollFromPlayerImpact(ped, false)
+                            SetEntityInvincible(ped, true)
 
                             if Config.useMythic then
                                 if Config.usepNotify then
-                                    exports.pNotify:SendNotification({text = "no other symptoms", type = "info", timeout = 2500})
+                                    exports.pNotify:SendNotification({text = _U('start_message'), type = "info", timeout = 2500})
                                 else
-                                    exports.mythic_notify:DoHudText('inform', "no other symptoms")
+                                    exports.mythic_notify:DoHudText('inform', _U('start_message'))
                                 end
                             else
                                 return
                             end
+                            Citizen.Wait(5000)
+
+                            if Config.useMythic then
+                                if Config.usepNotify then
+                                    exports.pNotify:SendNotification({text = _U('wait_message'), type = "info", timeout = 2500})
+                                else
+                                    exports.mythic_notify:DoHudText('inform', _U('wait_message'))
+                                end
+                            else
+                                return
+                            end
+
+                            Citizen.Wait(5000)
+
+                            if Config.useMythic then
+                                if Config.usepNotify then
+                                    exports.pNotify:SendNotification({text = _U('wait_message2'), type = "info", timeout = 2500})
+                                else
+                                    exports.mythic_notify:DoHudText('inform', _U('wait_message2'))
+                                end
+                            else
+                                return
+                            end
+
+                            Citizen.Wait(5000)
+
+                            if Config.useMythic then
+                                if Config.usepNotify then
+                                    exports.pNotify:SendNotification({text = _U('wait_message3'), type = "info", timeout = 2500})
+                                else
+                                    exports.mythic_notify:DoHudText('inform', _U('wait_message3'))
+                                end
+                            else
+                                return
+                            end
+
+                            Citizen.Wait(5000)
+
+                            if Config.useMythic then
+                                if Config.usepNotify then
+                                    exports.pNotify:SendNotification({text = _U('success_message'), type = "info", timeout = 2500})
+                                else
+                                    exports.mythic_notify:DoHudText('inform', _U('success_message'))
+                                end
+                            else
+                                return
+                            end
+
+                            TriggerEvent('basia:statuscheck')
                             
+                            Citizen.Wait(1000) -- this little guy here is giving basia:statuscheck time to really check if guy is dead or not
+                            if IsPlayerDead(ped) then --It doesn't really seem to do anything. This IsPlayerDead(ped) is because that way it has a chance to check if you are actually dead. I haven't tested it so don't blame me!
+                                return
+                            else
+                                TriggerServerEvent('basia:revive', target) --Its trigger that is responsible for reviving player
+                            end
+
+                            if Config.effects then
+                                if Config.effectstype == 'type1' then
+
+                                    TriggerEvent('basia:effects')
+
+                                    FreezeEntityPosition(ped, false)
+                                    SetPedCanRagdollFromPlayerImpact(ped, true)
+                                    SetEntityInvincible(ped, false)
+
+
+                                elseif Config.effectstype == 'type2' then
+
+                                    TriggerEvent('basia:effects2')
+
+                                    FreezeEntityPosition(ped, false)
+                                    SetPedCanRagdollFromPlayerImpact(ped, true)
+                                    SetEntityInvincible(ped, false)
+
+                                elseif Config.effectstype == 'type3' then
+
+                                    TriggerEvent('basia:effects3')
+                                    
+                                    FreezeEntityPosition(ped, false)
+                                    SetPedCanRagdollFromPlayerImpact(ped, true)
+                                    SetEntityInvincible(ped, false)
+
+                                elseif Config.effectstype == 'type4' then
+
+                                    TriggerEvent('basia:effects4')
+
+                                    FreezeEntityPosition(ped, false)
+                                    SetPedCanRagdollFromPlayerImpact(ped, true)
+                                    SetEntityInvincible(ped, false)
+
+                                elseif Config.effectstype == nil then
+
+                                    if Config.useMythic then
+                                        if Config.usepNotify then
+                                            exports.pNotify:SendNotification({text = "no other symptoms", type = "info", timeout = 2500})
+                                        else
+                                            exports.mythic_notify:DoHudText('inform', "no other symptoms")
+                                        end
+                                    else
+                                        return
+                                    end
+                                    
+                                    FreezeEntityPosition(ped, false)
+                                    SetPedCanRagdollFromPlayerImpact(ped, true)
+                                    SetEntityInvincible(ped, false)
+
+                                    Citizen.Wait(10)
+                                end
+                            else
+                                FreezeEntityPosition(ped, false)
+                                SetPedCanRagdollFromPlayerImpact(ped, true)
+                                SetEntityInvincible(ped, false)
+                            end
+
+                            Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
+
+                            SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
+
+                            Citizen.Wait(1000) -- and this thing just gives a little bit more time so the script can process this request more efficiently
+
                             FreezeEntityPosition(ped, false)
                             SetPedCanRagdollFromPlayerImpact(ped, true)
                             SetEntityInvincible(ped, false)
-
-                            Citizen.Wait(10)
                         end
-                    else
-                        FreezeEntityPosition(ped, false)
-                        SetPedCanRagdollFromPlayerImpact(ped, true)
-                        SetEntityInvincible(ped, false)
                     end
-
-                    Citizen.Wait(1000) -- this give time for revive to actually work without any problems ^^
-
-                    SetEntityCoords(ped, playerCoord.x, playerCoord.y, playerCoord.z, false, false, false, false) -- it sets entity(players) coordinates so that we have 100% sure he won't fall through floor!
-
-                    Citizen.Wait(1000) -- and this thing just gives a little bit more time so the script can process this request more efficiently
-
-                    FreezeEntityPosition(ped, false)
-                    SetPedCanRagdollFromPlayerImpact(ped, true)
-                    SetEntityInvincible(ped, false)
                 end
             end
         end
@@ -393,24 +484,30 @@ end)
 
 Citizen.CreateThread(function() -- here is the motiontext
     while true do
-        local playerCoord = GetEntityCoords(PlayerPedId(), false)
-        local textcoords = vector3(Config.textcoords.x, Config.textcoords.y, Config.textcoords.z)
-        Citizen.Wait(1)
-        if Config.usemotiontext then
-            exports.motiontext:Draw3DText({
-                xyz=Config.textcoords,
-                text={
-                    content=_U('text_content'), 
-                    rgb={255 , 255, 55},
-                    textOutline=true,
-                    scaleMultiplier=1,
-                    font=0
-                },
-                perspectiveScale=4,
-                radius=Config.textdistance,
-            }) 
-        elseif Vdist2(playerCoord, textcoords) < Config.textdistance then
-            DrawText3Ds(Config.textcoords.x, Config.textcoords.y, Config.textcoords.z, _U('text_content'))
+        Citizen.Wait(0)
+        for k,v in pairs(Config.Zones) do
+            for i=1, #v.textcoords, 1 do
+
+                local playerCoord = GetEntityCoords(PlayerPedId(), false)
+                local textcoords = vector3(v.textcoords[i].x, v.textcoords[i].y, v.textcoords[i].z)
+                
+                if Config.usemotiontext then
+                    exports.motiontext:Draw3DText({
+                        xyz=v.textcoords[i],
+                        text={
+                            content=_U('text_content'), 
+                            rgb={255 , 255, 55},
+                            textOutline=true,
+                            scaleMultiplier=1,
+                            font=0
+                        },
+                        perspectiveScale=4,
+                        radius=Config.textdistance,
+                    }) 
+                elseif Vdist2(playerCoord, textcoords) < Config.textdistance then
+                    DrawText3Ds(v.textcoords[i].x, v.textcoords[i].y, v.textcoords[i].z, _U('text_content'))
+                end
+            end
         end
     end
 end)
