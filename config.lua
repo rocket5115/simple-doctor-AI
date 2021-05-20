@@ -1,5 +1,5 @@
 Config = {}
-Config.Locale = 'pl' -- this sets locale which means that its translation. There are only 'pl' and 'en'
+Config.Locale = 'en' -- this sets locale which means that its translation. There are only 'pl' and 'en'
 
 Config.EnableControl = true -- Im not 100% sure if it will override esx_ambulancejob. I'm adding this so in case of something it may help.
 Config.ActivateControl = 46 -- this sets button that is responsible for revivivng/healing you. All of the buttons available are here https://docs.fivem.net/docs/game-references/controls/
