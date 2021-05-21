@@ -1,0 +1,66 @@
+As you know, in Update 1.6 not only did I changed layout of config but also I added option for multiple locations of interacts, text and peds. Interactions and text are simple to add. Peds are the same, but little different...
+
+For example we'll use local doc and "for _, item in pairs(doc) do"
+
+You'll need to copy:
+local doc = {
+    {type=4, hash=-730659924, x = Config.PedPos.x, y = Config.PedPos.y, z = Config.PedPos.z, a=229.46}, --its hash of our doc
+}
+just ctrl+c and ctrl+v. Just change doc to another number like doc5 or just change the name. 
+Then Change Config.PedPos to Config.PedPos5 for example. Go to Config.lua, copy one of Config.PedPos and then change to name you put in doc5, like Config.PedPos5.
+Change coordinates and also add Config.EnableFifthPed = true under all of other Enable[...]Ped. 
+After you did that At line 46 there are all of other stuff. Just copy one of it and just change Config.Enable[...]Ped. Also change item to item5 just to be sure. 
+After that change dc = CreatePed[...] to dc5 = CreatePed[...]. change all of item to item5. After that you have all of other options. just change doc to doc5.
+And last thing to do is add security for not spawning more peds. At line 133 you have all of those things. Just copy "elseif DoesEntityExist(dc) then DeletePed(ped)" and just change dc to dc5. And it should be good to go!
+
+It should look like that:
+
+client/main.lua:
+
+local doc4 = {
+    {type=4, hash=-730659924, x = Config.PedPos5.x, y = Config.PedPos5.y, z = Config.PedPos5.z, a=267.75}, --its hash of our doc
+}
+
+if Config.EnableFifthPed then
+        for _, item4 in pairs(doc4) do
+            if not DoesEntityExist(dc4) then
+
+                DeletePed(dc4)
+                    
+                dc4 = CreatePed(item4.type, item4.hash, item4.x, item4.y, item4.z, item4.a, false, true)
+                SetBlockingOfNonTemporaryEvents(dc4, true)
+                SetPedDiesWhenInjured(dc4, false)
+                SetPedCanPlayAmbientAnims(dc4, true)
+                SetPedCanRagdollFromPlayerImpact(dc, false)
+                SetEntityInvincible(dc4, true)
+                FreezeEntityPosition(dc4, true)
+        
+            elseif DoesEntityExist(dc4) then
+                DeletePed(dc4)
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(10) 
+        if DoesEntityExist(dc) then
+            DeletePed(ped)
+        elseif DoesEntityExist(dc2) then
+            DeletePed(ped)
+        elseif DoesEntityExist(dc3) then
+            DeletePed(ped)
+        elseif DoesEntityExist(dc4) then
+            DeletePed(ped)
+	elseif DoesEntityExist(dc5) then
+            DeletePed(ped)
+        end
+    end
+end)
+
+config.lua:
+
+Config.EnableFifthPed = true
+
+Config.PedPos4 = {x = -249.08, y = 6331.11, z = 32.43 -1}
